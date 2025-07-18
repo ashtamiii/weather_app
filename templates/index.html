@@ -1,1 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌦 AI Weather Forecast</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #000428, #004e92);
+            text-align: center;
+            padding: 20px;
+            color: white;
+            animation: glitter 1.5s infinite alternate;
+        }
+        
+        @keyframes glitter {
+            0% { text-shadow: 0 0 10px white; }
+            100% { text-shadow: 0 0 20px white; }
+        }
+
+        h2 {
+            font-size: 32px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        input {
+            padding: 12px;
+            width: 60%;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px;
+            margin-top: 10px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff4757;
+            transform: scale(1.05);
+        }
+
+        .weather-info {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .weather-info p {
+            font-size: 20px;
+            margin: 8px 0;
+        }
+
+        .emoji {
+            font-size: 24px;
+        }
+
+        .forecast-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .forecast-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            width: 120px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .forecast-box h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>🌦 AI-Powered Weather Forecast</h2>
+    
+    <div class="container">
+        <form method="POST">
+            <input type="text" name="city" placeholder="Enter city name..." required>
+            <button type="submit">Predict Weather</button>
+        </form>
+    </div>
+
+    {% if city %}
+        <div class="weather-info">
+            <h3>🌍 City: {{ city }}</h3>
+            <p class="emoji">🌡 Temperature: <strong>{{ temp }}°C</strong></p>
+            <p class="emoji">💧 Humidity: <strong>{{ humidity }}%</strong></p>
+            <p class="emoji">🌬 Wind Speed: <strong>{{ wind_speed }} m/s</strong></p>
+            <p class="emoji">📊 Pressure: <strong>{{ pressure }} hPa</strong></p>
+            <p class="emoji">☁ Cloud Coverage: <strong>{{ cloud_coverage }}%</strong></p>
+            <p class="emoji">🔭 Visibility: <strong>{{ visibility }} km</strong></p>
+            <p class="emoji">🌧 Rainfall (Last 1 Hour): <strong>{{ rain }} mm</strong></p>
+            <p class="emoji">⚡ AI-Predicted Rainfall Chance: <strong>{{ prediction }}%</strong></p>
+        </div>
+
+        <h3 style="margin-top: 30px;">🌟 5-Day Forecast</h3>
+        <div class="forecast-container">
+            {% for day in forecast %}
+            <div class="forecast-box">
+                <h4>📅 {{ day.date }}</h4>
+                <p>🌡 {{ day.temp }}°C</p>
+                <p>💧 {{ day.humidity }}%</p>
+                <p>🌬 {{ day.wind_speed }} m/s</p>
+                <p>🌧 {{ day.rain_chance }}%</p>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% elif error %}
+        <p style="color: yellow;">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>
